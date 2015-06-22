@@ -1,0 +1,100 @@
+<NotepadPlus>
+    <Project name="GIMELA">
+        <Folder name="core">
+            <Folder name="espace_sa">
+                <File name="core\espace_sa\creation_utilisateur_su.php" />
+                <File name="core\espace_sa\espace_supadmin.php" />
+                <File name="core\espace_sa\module_journal_op.php" />
+                <File name="core\espace_sa\option_su.php" />
+                <File name="core\espace_sa\parametrage_sys_cfg.php" />
+                <File name="core\espace_sa\parametre.php" />
+                <File name="core\espace_sa\promotion_user.php" />
+            </Folder>
+            <Folder name="old_files">
+                <File name="core\old_files\algo_valorisation.php" />
+                <File name="core\old_files\algo_valorisation2.php" />
+                <File name="core\old_files\forfait_valorisation.php" />
+                <File name="core\old_files\sauvegarde_valorisation.php" />
+                <File name="core\old_files\test_valorisation_vol.php" />
+                <File name="core\old_files\valorisation_vol.php" />
+            </Folder>
+            <Folder name="sql">
+                <File name="core\sql\requetesPDO.php" />
+            </Folder>
+            <File name="core\conf_gimela.php" />
+            <File name="core\entete.php" />
+            <File name="core\fichier_cron.php" />
+            <File name="core\functions.php" />
+            <File name="core\valorisation.php" />
+        </Folder>
+        <Folder name="include">
+            <Folder name="espace_administrateur">
+                <Folder name="old_files">
+                    <File name="include\espace_administrateur\old_files\action_supprimer.php" />
+                    <File name="include\espace_administrateur\old_files\restauration.php" />
+                </Folder>
+                <File name="include\espace_administrateur\action_supprimer.php" />
+                <File name="include\espace_administrateur\modification_forfait.php" />
+                <File name="include\espace_administrateur\modification_tarif.php" />
+                <File name="include\espace_administrateur\suppression.php" />
+                <File name="include\espace_administrateur\tarifs.php" />
+            </Folder>
+            <Folder name="espace_gestionnaire">
+                <Folder name="old_files">
+                    <File name="include\espace_gestionnaire\old_files\affichage_tarifs.php" />
+                </Folder>
+                <File name="include\espace_gestionnaire\alerte_user.php" />
+                <File name="include\espace_gestionnaire\consultation.php" />
+                <File name="include\espace_gestionnaire\consulter_planche_vol.php" />
+                <File name="include\espace_gestionnaire\import.php" />
+                <File name="include\espace_gestionnaire\import_planche.html" />
+                <File name="include\espace_gestionnaire\module_journal_mouvement.php" />
+                <File name="include\espace_gestionnaire\operation_compte.php" />
+            </Folder>
+            <File name="include\accueil.php" />
+            <File name="include\authentification.php" />
+            <File name="include\formulaire_inscription.php" />
+            <File name="include\mot_de_passe.php" />
+            <File name="include\verification.php" />
+        </Folder>
+        <Folder name="models">
+            <File name="models\espace_administrateur.php" />
+            <File name="models\espace_generale.php" />
+            <File name="models\espace_gestionnaire.php" />
+            <File name="models\espace_membre.php" />
+        </Folder>
+        <Folder name="webroot">
+            <Folder name="images">
+                <File name="webroot\images\bg.jpg" />
+                <File name="webroot\images\ImageAttribution.txt" />
+            </Folder>
+            <Folder name="js">
+                <File name="webroot\js\jquery-1.11.3.js" />
+            </Folder>
+            <Folder name="style">
+                <Folder name="css">
+                    <Folder name="fonts">
+                        <File name="webroot\style\css\fonts\BebasNeue-webfont.eot" />
+                        <File name="webroot\style\css\fonts\BebasNeue-webfont.svg" />
+                        <File name="webroot\style\css\fonts\BebasNeue-webfont.ttf" />
+                        <File name="webroot\style\css\fonts\BebasNeue-webfont.woff" />
+                        <File name="webroot\style\css\fonts\Dharma Type Font License.txt" />
+                        <File name="webroot\style\css\fonts\fontomas-webfont.eot" />
+                        <File name="webroot\style\css\fonts\fontomas-webfont.svg" />
+                        <File name="webroot\style\css\fonts\fontomas-webfont.ttf" />
+                        <File name="webroot\style\css\fonts\fontomas-webfont.woff" />
+                        <File name="webroot\style\css\fonts\franchise-bold-webfont.eot" />
+                        <File name="webroot\style\css\fonts\franchise-bold-webfont.svg" />
+                        <File name="webroot\style\css\fonts\franchise-bold-webfont.ttf" />
+                        <File name="webroot\style\css\fonts\franchise-bold-webfont.woff" />
+                    </Folder>
+                    <File name="webroot\style\css\animate-custom.css" />
+                    <File name="webroot\style\css\demo.css" />
+                    <File name="webroot\style\css\style3.css" />
+                    <File name="webroot\style\css\styles_menu.css" />
+                </Folder>
+            </Folder>
+        </Folder>
+        <File name="index.php" />
+    </Project>
+</NotepadPlus>
