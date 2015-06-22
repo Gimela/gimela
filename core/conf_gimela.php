@@ -70,36 +70,36 @@ function use_forfait() 	{
 |																		|
 ------------------------------------------------------------------------*/
 
-$pagesOK['accueil'] = '/gimela/include/accueil.php';
-$pagesOK['auth'] = '/gimela/include/authentification.php';
-$pagesOK['inscription'] = '/gimela/include/formulaire_inscription.php';
-$pagesOK['verification_inscription'] = '/gimela/include/verification.php';
-$pagesOK['motdepasseperdu'] = '/gimela/include/mot_de_passe.php';
+$pagesOK['accueil'] = '/include/accueil.php';
+$pagesOK['auth'] = '/include/authentification.php';
+$pagesOK['inscription'] = '/include/formulaire_inscription.php';
+$pagesOK['verification_inscription'] = '/include/verification.php';
+$pagesOK['motdepasseperdu'] = '/include/mot_de_passe.php';
 
-$pagesOK['membre'] = '/gimela/models/espace_membre.php';
+$pagesOK['membre'] = '/models/espace_membre.php';
 
-$pagesOK['gestionnaire'] = '/gimela/models/espace_gestionnaire.php';
-$pagesOK['alerte']='/gimela/include/espace_gestionnaire/alerte_user.php';
-$pagesOK['journal_des_mouvements']='/gimela/include//espace_gestionnaire/module_journal_mouvement.php';
-$pagesOK['operations_mouvements']='/gimela/include//espace_gestionnaire/operation_compte.php';
-$pagesOK['import']='/gimela/include/espace_gestionnaire/import.php';
-$pagesOK['planche_vol']='/gimela/include/espace_gestionnaire/consulter_planche_vol.php';
-$pagesOK['consultation_membre'] = '/gimela/include/espace_gestionnaire/consultation.php';
+$pagesOK['gestionnaire'] = '/models/espace_gestionnaire.php';
+$pagesOK['alerte']='/include/espace_gestionnaire/alerte_user.php';
+$pagesOK['journal_des_mouvements']='/include//espace_gestionnaire/module_journal_mouvement.php';
+$pagesOK['operations_mouvements']='/include//espace_gestionnaire/operation_compte.php';
+$pagesOK['import']='/include/espace_gestionnaire/import.php';
+$pagesOK['planche_vol']='/include/espace_gestionnaire/consulter_planche_vol.php';
+$pagesOK['consultation_membre'] = '/include/espace_gestionnaire/consultation.php';
 
-$pagesOK['administrateur']='/gimela/models/espace_administrateur.php';
-$pagesOK['tarif'] = '/gimela/include/espace_gestionnaire/affichage_tarifs.php';
-$pagesOK['gestion_tarif'] = '/gimela/include/espace_administrateur/tarifs.php';
-$pagesOK['gestion_forfait'] = '/gimela/include/espace_administrateur/modification_forfait.php';
-$pagesOK['operation_systeme'] = '/gimela/include/espace_administrateur/operation.php';
-$pagesOK['suppression_membre'] = '/gimela/include/espace_administrateur/suppression.php';
-$pagesOK['supprimer_membre'] = '/gimela/include/espace_administrateur/action_supprimer.php';
-$pagesOK['restauration_membre'] = '/gimela/include/espace_administrateur/restauration.php';
-$pagesOK['modification_tarif'] = '/gimela/include/espace_administrateur/modification_tarif.php';
-$pagesOK['journal_operation'] = '/gimela/core/espace_sa/module_journal_op.php';
+$pagesOK['administrateur']='/models/espace_administrateur.php';
+$pagesOK['tarif'] = '/include/espace_gestionnaire/affichage_tarifs.php';
+$pagesOK['gestion_tarif'] = '/include/espace_administrateur/tarifs.php';
+$pagesOK['gestion_forfait'] = '/include/espace_administrateur/modification_forfait.php';
+$pagesOK['operation_systeme'] = '/include/espace_administrateur/operation.php';
+$pagesOK['suppression_membre'] = '/include/espace_administrateur/suppression.php';
+$pagesOK['supprimer_membre'] = '/include/espace_administrateur/action_supprimer.php';
+$pagesOK['restauration_membre'] = '/include/espace_administrateur/restauration.php';
+$pagesOK['modification_tarif'] = '/include/espace_administrateur/modification_tarif.php';
+$pagesOK['journal_operation'] = '/core/espace_sa/module_journal_op.php';
 
-$pagesOK['kjazh42tgh41'] = '/gimela/core/espace_sa/espace_supadmin.php';
-$pagesOK['ez4gz6gaf1eh'] = '/gimela/core/espace_sa/option_su.php';
-$pagesOK['creation_utilisateur'] = '/gimela/core/espace_sa/creation_utilisateur_su.php';
+$pagesOK['kjazh42tgh41'] = '/core/espace_sa/espace_supadmin.php';
+$pagesOK['ez4gz6gaf1eh'] = '/core/espace_sa/option_su.php';
+$pagesOK['creation_utilisateur'] = '/core/espace_sa/creation_utilisateur_su.php';
 
-$pagesOK['espace_generale']='/gimela/models/espace_generale.php';
+$pagesOK['espace_generale']='/models/espace_generale.php';
 ?>

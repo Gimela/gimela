@@ -58,7 +58,7 @@ elseif(!empty($_GET['page'])) $page = $_SESSION['page_defaut'];
 		<div id="login">
 			<?php
 			if(!empty($_SESSION)) include("./core/entete.php");		
-			include("./include/accueil.php"); 
+			include("".$pagesOK[$page].""); 
 			?>
 		</div>
 	</div>
