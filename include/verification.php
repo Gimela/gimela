@@ -1,22 +1,23 @@
 <?php
 /*
+-----------------------------------------------------------------
 Christeddy Milapie
-vérification1.php
+vérification.php
 Crée le 24/03/15
-Dernière modification le : 01/04/15 par Kean de Souza
+Dernière modification le : 23/06/15 par Kean de Souza
+-----------------------------------------------------------------
 
-Edité avec Notepad++ 10/01/15 - 17:20:21 ( Je suis Charlie Edition)
+	Objectif : Verifier mail non inscrit dans la base et password puis intégrer le nouvel utilisateur dans la base
 
-Objectif : Verifier mail non inscrit dans la base et password puis intégrer le nouvel utilisateur dans la base
+Modification 23/06/15	
+	- Ajout des champs obligatoires : nom, prenom, pseudo, mdp, email
 
 */
 
 // Verification des input sont pleins
 if(!empty($_POST['pseudo']))
 {
-if ($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&$_POST['mail1']&&$_POST['passe']&&$_POST['passe1']
-	&&$_POST['profession'] && $_POST['sexe'] && $_POST['address']  && $_POST['city']  && $_POST['cp'] 
-	&& $_POST['tel_fixe'] && $_POST['tel_mobile'] )
+if ($_POST['name'] && $_POST['mail'] && $_POST['mail1'] && $_POST['passe'] && $_POST['passe1'])
 	{
 	// Verification des mails et mot de passes identiques
 	if($_POST['mail']== $_POST['mail1']&&$_POST['passe']==$_POST['passe1']) 
@@ -37,11 +38,13 @@ if ($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&$
 			$date=strtotime($_POST['naissance']);
 			$newdate=date('Y/m/d', $date);
 			
+			if(!isset($_POST['sexe'])) $sexe=NULL; else $sexe = $_POST['sexe'];
+			
 			$reqNewUser->bindValue(':pseudo',$_POST['pseudo'] ,PDO::PARAM_STR);
 			$reqNewUser->bindValue(':nom',$_POST['name'] ,PDO::PARAM_STR);	
 			$reqNewUser->bindValue(':prenom',$_POST['prenom'] ,PDO::PARAM_STR);	
 			$reqNewUser->bindValue(':profession', $_POST['profession'], PDO::PARAM_STR);
-			$reqNewUser->bindValue(':sexe',$_POST['sexe'] ,PDO::PARAM_STR);
+			$reqNewUser->bindValue(':sexe',$sexe ,PDO::PARAM_NULL);
 			$reqNewUser->bindValue(':date_naissance',$newdate ,PDO::PARAM_STR);
 			$reqNewUser->bindValue(':adresse',$_POST['address'], PDO::PARAM_STR);
 			$reqNewUser->bindValue(':cp',$_POST['cp'] ,PDO::PARAM_STR);
@@ -61,12 +64,11 @@ if ($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&$
 				$reqid->execute();
 				$resid	= $reqid->fetch();
 				$reqid->CloseCursor();
-				//echo $resid['id_util'];
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'pseudo', $_POST['pseudo']);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'nom', $_POST['name']);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'prenom', $_POST['prenom']);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'profession', $_POST['profession']);
-				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'sexe', $_POST['sexe']);
+				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'sexe', $sexe);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'date_naissance', $newdate);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'adresse', $_POST['address']);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'cp', $_POST['cp']);
