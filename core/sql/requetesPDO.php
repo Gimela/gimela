@@ -79,9 +79,10 @@ $bdd=ConnectBddGestionnaire();
 function AjoutOpeSystem($utilisateur, $table, $champ, $newvaleur) {
 	$bdd=ConnectBddUser();
 	$reqNewOperations = $bdd->prepare("INSERT INTO operation(id_utilisateur, id_gestionnaire,demande_valid, table_modif, champ_modif, valeur, typ_op, date_op) 
-	VALUES(:id_utilisateur, 0,0, :table, :champ, :valeur, 'Ajout', now())");
+	VALUES(:id_utilisateur, :id_gest ,0, :table, :champ, :valeur, 'Ajout', now())");
 	
 	$reqNewOperations->bindValue(':id_utilisateur',$utilisateur,PDO::PARAM_STR);
+	$reqNewOperations->bindValue(':id_gest', ID_SYS ,PDO::PARAM_STR);
 	$reqNewOperations->bindValue(':table',$table ,PDO::PARAM_STR);	
 	$reqNewOperations->bindValue(':champ',$champ ,PDO::PARAM_STR);	
 	$reqNewOperations->bindValue(':valeur',$newvaleur ,PDO::PARAM_STR);	

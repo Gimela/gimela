@@ -14,9 +14,9 @@ Objectif : Verifier mail non inscrit dans la base et password puis intégrer le 
 // Verification des input sont pleins
 if(!empty($_POST['pseudo']))
 {
-if (($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&$_POST['mail1']&&$_POST['passe']&&$_POST['passe1']
+if ($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&$_POST['mail1']&&$_POST['passe']&&$_POST['passe1']
 	&&$_POST['profession'] && $_POST['sexe'] && $_POST['address']  && $_POST['city']  && $_POST['cp'] 
-	&& ($_POST['tel_fixe'] OR $_POST['tel_mobile'] )))
+	&& $_POST['tel_fixe'] && $_POST['tel_mobile'] )
 	{
 	// Verification des mails et mot de passes identiques
 	if($_POST['mail']== $_POST['mail1']&&$_POST['passe']==$_POST['passe1']) 
@@ -61,7 +61,7 @@ if (($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&
 				$reqid->execute();
 				$resid	= $reqid->fetch();
 				$reqid->CloseCursor();
-				echo $resid['id_util'];
+				//echo $resid['id_util'];
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'pseudo', $_POST['pseudo']);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'nom', $_POST['name']);
 				AjoutOpeSystem($resid['id_util'], 'compte_utilisateur', 'prenom', $_POST['prenom']);
