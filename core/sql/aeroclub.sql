@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `compte_utilisateur` (
   `tel_fixe` varchar(12) NOT NULL,
   `tel_mobile` varchar(12) NOT NULL,
   `mail` varchar(100) NOT NULL,
-  `password` varchar(8) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `date_licence` date DEFAULT NULL,
   `num_licence` varchar(10) DEFAULT NULL,
   `visit_med` date DEFAULT NULL,

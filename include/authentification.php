@@ -30,7 +30,7 @@ if (isset($_POST['auth']))
 	if(empty($resul))
 		{
 		echo '<p> Vous n\'êtes pas inscrit dans la base de données ou les données renseignées sont erronées... </p>';
-		header('refresh: 1; URL=index.php?page=accueil');	
+		header('refresh: 3; URL=index.php?page=accueil');	
 	}
 	else {
 		echo '<p> Bienvenue <mark><i>'.$resul["pseudo"].'</i></mark> Vous serez redirigé dans un instant... </p>';
