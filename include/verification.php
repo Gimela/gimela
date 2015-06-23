@@ -16,7 +16,7 @@ if(!empty($_POST['pseudo']))
 {
 if (($_POST['name'] && $_POST['prenom']&& $_POST['naissance'] &&$_POST['mail']&&$_POST['mail1']&&$_POST['passe']&&$_POST['passe1']
 	&&$_POST['profession'] && $_POST['sexe'] && $_POST['address']  && $_POST['city']  && $_POST['cp'] 
-	&& $_POST['tel_fixe']  && $_POST['tel_mobile'] ))
+	&& ($_POST['tel_fixe'] OR $_POST['tel_mobile'] )))
 	{
 	// Verification des mails et mot de passes identiques
 	if($_POST['mail']== $_POST['mail1']&&$_POST['passe']==$_POST['passe1']) 

@@ -8,10 +8,10 @@ if(isset($_SESSION['id']))
 else
 {
 	
-include('/verification.php');
+include('/var/www/gimela/include/verification.php');
 
 echo ('	<div class="animate form">
-		<form method="post" action="index.php?page=verification_inscription" > 
+		<form method="post" action="#" > 
 			<div id="form_inscription">
                                 <h1> Inscription </h1> 
                                 <p> 
