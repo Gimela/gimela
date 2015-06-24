@@ -209,7 +209,16 @@ function ForfaitPlaneur($forfait, $planeur){
 |		REQUETES SQL ESPACE MEMBRE			|
 |											|
  --------------------------------------------*/
-
+function UpdateMDP ($id_util, $mdp_md5)
+	{
+	$bdd=ConnectBddGestionnaire();
+	$requete = $bdd->prepare("UPDATE compte_utilisateur SET password=:new_pass WHERE id_util =:id_user");
+	$requete->bindValue(':new_pass', $mdp_md5,PDO::PARAM_STR);	
+	$requete->bindValue(':id_user', $id_util,PDO::PARAM_STR);	
+	$requete->execute();	
+		
+	if(($requete->execute()) == TRUE ){ return TRUE ;} else {return FALSE; }
+	}
 
 function UpdateStatutUser($id, $statut) {
  //AJOUT LE 29/05  - Permet la mise à jour du statut du membre	
