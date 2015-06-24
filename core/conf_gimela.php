@@ -25,7 +25,8 @@ define ("CMP", 1); // Prix de la Contribution Spéciale Maintenance et Préventi
 define('CMP_MAX_SAISON', 80); // Heure de CMP réglé par saison
 
 // Id de l'utilisateur système : Nécessite d'etre inscrit dans la base de donnée !
-define("ID_SYS", 1);
+//define("ID_SYS", 150152015);
+define("ID_SYS", 3);
 
 define ("MB_DESINSCRIT", 3);
 
