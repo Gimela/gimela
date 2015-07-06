@@ -288,7 +288,7 @@ else{
 		if(empty($resultat['mouvement_forfait'])) $info_forfait = 'Aucun';
 		else	{
 		$info_f = GetForfaitDescription($resultat['mouvement_forfait']);
-		print_r($info_f);
+		if (DEBUG) print_r($info_f);
 		$info_forfait = $info_f['description'];
 		$total_vol = CalculResteForfait($resultat['mouvement_forfait']);
 		$info_forfait.= '<br/> Minutes vol planeur restantes : '.$total_vol.' ';

@@ -102,5 +102,5 @@ $pagesOK['kjazh42tgh41'] = '/var/www/gimela/core/espace_sa/espace_supadmin.php';
 $pagesOK['ez4gz6gaf1eh'] = '/var/www/gimela/core/espace_sa/option_su.php';
 $pagesOK['creation_utilisateur'] = '/var/www/gimela/core/espace_sa/creation_utilisateur_su.php';
 
-$pagesOK['espace_generale']='/var/www/gimela/models/espace_generale.php';
+$pagesOK['menu']='/var/www/gimela/models/espace_generale.php';
 ?>

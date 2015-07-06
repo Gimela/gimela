@@ -16,17 +16,9 @@ if ((!isset($_SESSION['statut'] )))
 	{
 	$page = 'accueil';
 	}
-elseif (($_SESSION['statut'])==2)
+else
 	{
-	$page='membre';
-	}
-elseif (($_SESSION['statut'])==4)
-	{
-	$page='gestionnaire';
-	}
-elseif (($_SESSION['statut'])==5)
-	{
-	$page='administrateur';
+	$page='menu';
 	}
 
 //Si le $_GET['page'] est dans les keys du tableau $pagesOK
