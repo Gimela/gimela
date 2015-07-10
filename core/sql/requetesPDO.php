@@ -6,8 +6,8 @@
 |
 |
 
-Crée le O1/04/15 par Kean de Souza (kean.desouza@gmail.com)
-Dernière modification le : 01/04/15 par Kean de Souza 
+Crée le 01/04/15 par Kean de Souza (kean.desouza@gmail.com)
+Dernière modification le : 10/07/15 par Kean de Souza 
 
 Edité avec Notepad++ 10/01/15 - 17:20:21 ( Je suis Charlie Edition)
 
@@ -79,10 +79,10 @@ $bdd=ConnectBddGestionnaire();
 function AjoutOpeSystem($utilisateur, $table, $champ, $newvaleur) {
 	$bdd=ConnectBddUser();
 	$reqNewOperations = $bdd->prepare("INSERT INTO operation(id_utilisateur, id_gestionnaire,demande_valid, table_modif, champ_modif, valeur, typ_op, date_op) 
-	VALUES(:id_utilisateur, :id_gest ,0, :table, :champ, :valeur, 'Ajout', now())");
+	VALUES(:id_utilisateur, :id_gest,0, :table, :champ, :valeur, 'Ajout', now())");
 	
-	$reqNewOperations->bindValue(':id_utilisateur',$utilisateur,PDO::PARAM_STR);
-	$reqNewOperations->bindValue(':id_gest', ID_SYS ,PDO::PARAM_STR);
+	$reqNewOperations->bindValue(':id_utilisateur',$utilisateur,PDO::PARAM_INT);
+	$reqNewOperations->bindValue(':id_gest', ID_SYS ,PDO::PARAM_INT);
 	$reqNewOperations->bindValue(':table',$table ,PDO::PARAM_STR);	
 	$reqNewOperations->bindValue(':champ',$champ ,PDO::PARAM_STR);	
 	$reqNewOperations->bindValue(':valeur',$newvaleur ,PDO::PARAM_STR);	
@@ -115,6 +115,23 @@ function MajInformationUser($utilisateur, $champ, $newvaleur, $id_operation, $id
 	$req2=$bdd->prepare("UPDATE operation SET demande_valid=0, id_gestionnaire=:gestionnaire WHERE id_operation=:operation");
 	$req2->bindValue(':gestionnaire',$id_gestionnaire,PDO::PARAM_STR);
 	$req2->bindValue(':operation',$id_operation ,PDO::PARAM_STR);	
+	
+	if(($req->execute()) == TRUE && ($req2->execute()) == TRUE ){ return TRUE ;} else {return FALSE; }
+};
+
+function MajInfoGest($utilisateur, $champ, $newvaleur, $id_gestionnaire) {
+	$bdd=ConnectBddGestionnaire();
+	$req = $bdd->prepare("UPDATE compte_utilisateur SET ".$champ."=:valeur WHERE id_util =:id");
+	$req->bindValue(':id',$utilisateur,PDO::PARAM_STR);
+	$req->bindValue(':valeur',$newvaleur ,PDO::PARAM_STR);	
+	
+	$req2=$bdd->prepare("INSERT INTO operation (id_utilisateur, id_gestionnaire, demande_valid, table_modif, champ_modif, valeur, typ_op, date_op) 
+						VALUES (:id_user, :id_gest, 0, 'compte_utilisateur', :champs, :valeur, 'MAJ', NOW() ) ");
+	$req2->bindValue(':id_user',$utilisateur,PDO::PARAM_INT);
+	$req2->bindValue(':id_gest',$id_gestionnaire,PDO::PARAM_INT);
+	$req2->bindValue(':champs',$champ,PDO::PARAM_STR);
+	$req2->bindValue(':valeur',$newvaleur,PDO::PARAM_STR);
+	
 	
 	if(($req->execute()) == TRUE && ($req2->execute()) == TRUE ){ return TRUE ;} else {return FALSE; }
 };
@@ -252,7 +269,7 @@ function UpdateNouveauUser($id, $statut, $id_club) {
 	
 function GetUsersNomPrenomIdClub() {
 	$bdd=ConnectBddGestionnaire();
-	$req2 = $bdd->prepare('SELECT id_util, id_club, nom , prenom FROM compte_utilisateur WHERE 1');
+	$req2 = $bdd->prepare('SELECT id_util, id_club, pseudo, nom , prenom FROM compte_utilisateur WHERE 1');
 	$req2->execute();
 	$res2 = $req2->fetchAll(PDO::FETCH_NAMED);
 	if(DEBUG_SQL) {echo 'RQ : '.__function__ .' <br/> ' ; print_r($res2); }
@@ -685,7 +702,7 @@ function JournalDesMouvements() {
 // Retourne un tableau selon les valeurs spécifié dans la requête
 // AJOUT LE 27/05	
 	$bdd=ConnectBddGestionnaire();
-	$requete = $bdd->prepare("SELECT id_mouv, type_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE YEAR(date_heure_mouv)= (SELECT YEAR(NOW())) AND mouvement.id_client=compte_utilisateur.id_util AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
+	$requete = $bdd->prepare("SELECT id_mouv, type_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, mouvement.comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE YEAR(date_heure_mouv)= (SELECT YEAR(NOW())) AND mouvement.id_client=compte_utilisateur.id_util AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
 	$requete->execute();
 	$tab=$requete->fetchAll(PDO::FETCH_NAMED);
 	if (DEBUG_SQL) {echo 'RQ '. __function__ .' <br/>' ; print_r($tab);}

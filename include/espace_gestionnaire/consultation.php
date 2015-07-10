@@ -2,7 +2,7 @@
 /*-------------------------------
 Kean de Souza - Projet 8
 
-
+Denière modification le 10/07/15
 ---------------------------------*/
 if(empty($_SESSION)){
 	header('refresh: 1; URL=index.php');
@@ -20,11 +20,12 @@ else
 	
 	$resultat=GetUsersNomPrenomIdClub();
 	
-	$tabCompte='<table border="1" align="center" style="font-size: 18px; text-align:center;" > <tr> <th>ID</th> <th>NOM</th> <th>Prenom</th> </tr>';
+	$tabCompte='<table border="1" align="center" style="font-size: 18px; text-align:center;" > <tr> <th>ID</th> <th>PSEUDO</th> <th>NOM</th> <th>PRENOM</th> </tr>';
 	
 	foreach($resultat as $row){
 		$tabCompte.='<tr> 
 			<td> <a href="index.php?page=membre&amp;id='.$row['id_util'].'"> '.$row['id_club'].'</a></td>
+			<td>'.$row['pseudo'].'</td>
 			<td>'.$row['nom'].'</td>
 			<td>'.$row['prenom'].'</td>
 			</tr>';

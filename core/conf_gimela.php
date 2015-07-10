@@ -98,6 +98,8 @@ $pagesOK['restauration_membre'] = '/var/www/gimela/include/espace_administrateur
 $pagesOK['modification_tarif'] = '/var/www/gimela/include/espace_administrateur/modification_tarif.php';
 $pagesOK['journal_operation'] = '/var/www/gimela/core/espace_sa/module_journal_op.php';
 
+$pagesOK['editer_compte_pilote'] = '/var/www/gimela/include/espace_gestionnaire/editer_compte.php';
+
 $pagesOK['kjazh42tgh41'] = '/var/www/gimela/core/espace_sa/espace_supadmin.php';
 $pagesOK['ez4gz6gaf1eh'] = '/var/www/gimela/core/espace_sa/option_su.php';
 $pagesOK['creation_utilisateur'] = '/var/www/gimela/core/espace_sa/creation_utilisateur_su.php';

@@ -3,7 +3,7 @@
 Kean de Souza
 Espace_membre_SysVv.php
 Crée le 24/03/15
-Dernière modification le : 01/04/15
+Dernière modification le : 10/07/15
 
 Edité avec Notepad++ 10/01/15 - 17:20:21 ( Je suis Charlie Edition)
 
@@ -47,7 +47,8 @@ else{
 	$id_cvvfr_demande = $resultat['id_club'];
 		
 	if ($resultat['id_statut'] < 2 && $_SESSION['id_statut'] < 4) { // Personne non valide
-		echo '<p> En attente de la validation par un gestionnaire, veuillez vous reconnectez plus tard </p>';		
+		$message_attente ='En attente de la validation par un gestionnaire, veuillez vous reconnectez plus tard';	
+		MessageAlert($message_attente);
 		exit();
 		}
 	/*------------------------------------------------------------------------
@@ -58,10 +59,8 @@ else{
 		{
 		if ( UpdateNouveauUser($_GET['id'], 2, $_POST['identifiant_club']) == TRUE) $message_validation ="Membre mis à jour avec succès.";
 		else $message_validation="Une erreur a été rencontré, veuillez réessayer et remplir le champ d'identifiant club.";
-			
-		echo ('<script type="text/javascript"> $(document).ready(function() {document.title = \'Membre '.$resultat["nom"].'\';}); </script>
-					<p>'.$message_validation.' Vous pouvez fermer cette page.</p>
-			');
+		MessageAlert($message_validation);
+		header('URL=index.php?page=alerte');
 		}
 	/*-------------------------------------------------------------------------
 				Mise a jour des informations des utilisateurs
@@ -70,8 +69,11 @@ else{
 	elseif(!empty($_GET['id']) && $_SESSION['id_statut'] >= 4 && isset($_GET['maj']) && isset($_GET['champ']) )
 		{
 		$verification=MajInformationUser($_GET['id'], $_GET['champ'], $_GET['maj'], $_GET['operation'],$_SESSION['id'], 'Modification');
-		if ($verification) echo '<p><mark style="background-color : green;">Mise à jour effectué, vous pouvez fermer la page.</mark></p>';
-		else echo '<p> <mark style="background-color : red;">Une erreur a été rencontré, veuillez recommencer</mark></p>';
+		if ($verification) $message_confirmation ='Mise à jour effectué';
+		else $message_confirmation='Une erreur a été rencontré, veuillez recommencer';
+		
+		MessageAlert($message_confirmation);
+		header('URL=index.php?page=membre&amp;id='.$_GET['id'].'');
 		}
 	/*------------------------------------------------------------------------
 			Interface de validation d'un membre -- GESTIONNAIRE
@@ -81,12 +83,16 @@ else{
 		{
 			if (isset($_POST['identifiant_club']))
 				{
-				if(VerificationIdClub($_POST['identifiant_club']))
-					{
-					echo '<p>L\'identifiant '.$_POST['identifiant_club'].' est valide </p>';
+				if(VerificationIdClub($_POST['identifiant_club'])) {
+					$msg_club_utilise ='L\'identifiant '.$_POST['identifiant_club'].' est valide';
 					$id_club = $_POST['identifiant_club'];
 					}
-				else{ echo '<p>Identifiant '.$_POST['identifiant_club'].' déjà utilisé</p>'; }
+				else{ 
+					$msg_club_utilise = 'Identifiant '.$_POST['identifiant_club'].' déjà utilisé'; 
+					$id_club = ' ';
+					}
+				
+				MessageAlert($msg_club_utilise);
 				}
 			else $id_club = ' ';
 
@@ -109,7 +115,7 @@ else{
 					<li>Date de la dernière visite médicale: '.dateUS2FR($resultat["visit_med"]).' </li>
 					<li> Message important : </li>
 				</ul>
-				<label for="id_club"> Veuillez entrer l\'identifiant '.NOM_CLUB.' AVANT DE VALIDER : <input type="text" id="id_club" value="'.$resultat['id_club'].'" name="identifiant_club"/> 
+				<label for="id_club"> Veuillez entrer l\'identifiant '.NOM_CLUB.' AVANT DE VALIDER : <input type="text" id="id_club" value="'.$id_club.'" name="identifiant_club"/> 
 					<p style="text-align: center">
 				
 				
