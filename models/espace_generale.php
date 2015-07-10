@@ -31,6 +31,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_MEMBRE)
 				<ul id="espace_gestionnaire">
 					<li> <a href="index.php?page=alerte"> Notifications nouveau inscrit ou modification</a></li>
 					<li> <a href="index.php?page=consultation_membre&amp;lien"> Consulter un compte pilote </a> </li>
+					<li> <a href="index.php?page=editer_compte_pilote"> Editer un compte pilote </a> </li>
 					<li> <a href="index.php?page=journal_des_mouvements"> Consulter le journal des mouvements </a> </li>
 					<li> <a href="index.php?page=operations_mouvements">Créer, modifier ou supprimer un mouvement </a> </li>
 					<li> <a href="index.php?page=import"> Importer une planche de vol </a> </li>
