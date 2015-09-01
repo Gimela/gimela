@@ -6,8 +6,8 @@
 |
 |
 
-Crée le 01/04/15 par Kean de Souza (kean.desouza@gmail.com)
-Dernière modification le : 10/07/15 par Kean de Souza 
+Crée le O1/04/15 par Kean de Souza (kean.desouza@gmail.com)
+Dernière modification le : 01/04/15 par Kean de Souza 
 
 Edité avec Notepad++ 10/01/15 - 17:20:21 ( Je suis Charlie Edition)
 
@@ -747,13 +747,13 @@ function RechercheMouvementParID($id, $date = NULL) {
 	if ( is_null($date))
 		{
 		$date=date('Y');
-		$requete = $bdd->prepare("SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE mouvement.id_client= :id_saisie AND YEAR(date_heure_mouv)=:annee AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
+		$requete = $bdd->prepare("SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, mouvement.comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE mouvement.id_client= :id_saisie AND YEAR(date_heure_mouv)=:annee AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
 		$requete->bindValue(':id_saisie',$id,PDO::PARAM_STR);
 		$requete->bindValue(':annee',$date,PDO::PARAM_STR);
 		}
 	else
 		{
-		$requete = $bdd->prepare("SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE mouvement.id_client= :id_saisie AND DATE(date_heure_mouv)=:date AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC ") ; // Sélectionne les mouvements de l'année civile en cours
+		$requete = $bdd->prepare("SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, mouvement.comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE mouvement.id_client= :id_saisie AND DATE(date_heure_mouv)=:date AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC ") ; // Sélectionne les mouvements de l'année civile en cours
 		$requete->bindValue(':id_saisie',$id,PDO::PARAM_STR);
 		$requete->bindValue(':date',$date,PDO::PARAM_STR);	
 		}

@@ -3,7 +3,7 @@
 Kean de Souza
 operation_compte.php
 Crée le 01/06/15
-Modifié le 03/06/15
+Modifié le 12/07/15
 Objectif : 
 	- Créer un mouvement sur un compte pilote
 	- Modifier un mouvement sur un compte pilote
@@ -59,21 +59,26 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 		echo $montant_saisi.$type_montant;
 		if (MajMouvement($_SESSION['id'], $type_montant, $_POST['tarif_ajout'], $_POST['paiement_ajout'] , $_POST['commentaire_modif'], $_POST['id_mouvement_mod'], $montant_saisi)) 
 			{
-			echo 'La mise à jour s\'est bien déroulé';
 			global $forfait;
 			if(array_key_exists($_POST['tarif_ajout'], $forfait))
 				{
 				$tab=SelectionnerMouvement($_POST['id_mouvement_mod']);
 				MAJForfaitUser($tab['id_client'], $_POST['tarif_ajout']);
+				$maj='La mise à jour s\'est bien déroulé';
 				}
 			}	
-		else {echo 'Une erreur a été rencontré';}
+		else $maj='Une erreur a été rencontré';
+		
+		MessageAlert($maj);
 		}
 	echo ('<p><input type="submit" name="supprimer_mouvement" value="Menu : Supprimer un mouvement existant" style ="width:40%;padding:10px" /></p>');
 	
 		if (isset($_POST['supprimer_mouvement']))
 			{
-			if(empty($_POST['id_mouvement'])) echo '<p>Veuillez définir un ID</p>';
+			if(empty($_POST['id_mouvement'])) {
+				$info_manquant='Veuillez définir un ID';
+				MessageAlert($info_manquant);
+			}
 			else	
 				{
 				$tab=RechercheMouvementParIdMouvement($_POST['id_mouvement']);
@@ -118,8 +123,10 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 			}
 		elseif(isset($_POST['suppression_mouvement']))
 			{
-			if (SupprimerMouvement($_POST['id_mouvement_mod'])) echo '<p>Supression effectuée avec succès</p>';
-			else echo '<p>Une erreur inopiné a été rencontré, veuillez réessayez</p>';
+			if (SupprimerMouvement($_POST['id_mouvement_mod'])) $conf_suppresion = 'Supression effectuée avec succès';
+			else $conf_suppresion='Une erreur inopiné a été rencontré, veuillez réessayez';
+			MessageAlert($conf_suppresion);
+			
 			}
 	echo ('
 	<a href="index.php?page=tarif" onclick="window.open(this.href); return false;" >Voir les tarifs du club</a> 
@@ -137,7 +144,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 
 function DemandeModification()
 	{
-	if(empty($_POST['id_mouvement'])) echo 'Veuillez définir un ID';
+	if(empty($_POST['id_mouvement'])) {$id_manquant='Veuillez définir un ID'; MessageAlert($id_manquant);}
 		else	
 			{
 			$tab=RechercheMouvementParIdMouvement($_POST['id_mouvement']);
@@ -248,7 +255,7 @@ function CreerMouvement()	{
 		
 	if (AjouterMouvement($_POST['select_user'], $_SESSION['id'], $type_montant, $_POST['tarif_ajout'],$_POST['paiement_ajout'], $_POST['commentaire_ajout'], $montant_saisi) )
 		{
-		echo 'Ajout effectué avec succès';
+		$ajout_mouv='Ajout effectué avec succès';
 
 		global $forfait;
 		if(array_key_exists($_POST['tarif_ajout'], $forfait))
@@ -267,7 +274,8 @@ function CreerMouvement()	{
 					MAJForfaitUser($_POST['select_user'], $res[0]);
 					}
 		}
-	else {echo 'Une erreur inopiné a été rencontré';}	
+	else $ajout_mouv='Une erreur inopiné a été rencontré';
+	MessageAlert($ajout_mouv);
 	echo '<p>---------------------------------------------------------------</p>';
 }
 
