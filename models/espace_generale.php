@@ -44,6 +44,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_MEMBRE)
 					<li> <a href="index.php?page=gestion_forfait">Gestion des formules</a> </li>
 					<li> <a href="index.php?page=journal_operation">Consulter le journal des opérations</a> </li> 
 					<li> <a href="index.php?page=suppression_membre">Suppression des membres</a> </li>
+					<li> <a href="index.php?page=gestion_aeronef">Gestion des aeronefs</a> </li>
 				</ul>
 				
 				<p> Super Administrateur</p>

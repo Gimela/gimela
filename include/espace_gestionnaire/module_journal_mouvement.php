@@ -17,33 +17,15 @@ elseif($_SESSION['id_statut'] < STATUT_ACCES_GESTION)
 	}
 elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 	{
-		
-	$champs_manquant = '<p>Veuillez remplir le champ correspondant</p>';
-
-	$select=SelectUsers();
-	echo ('
-	<h1>Journal des mouvements</h1>
-	<form method="post" action="index.php?page=journal_des_mouvements">
-		<p><label for="sel_usr">Visualiser les mouvements d`\'un compte : </label> '.$select.'		</p>
-		<p> Visualiser les mouvements d\'une date précise : <input type="radio" name="regle" value="date"/> 
-			<input type="date" style="width: 150px;" placeholder="jj/mm/aaaa" name="recherche_date"/> </p>
-		<p>Mouvements d\'une année <input type="radio" name="regle" value="annee"/> 
-			<input type="text" style="width: 150px;" placeholder="aaaa" name="listage_par_an"/> </p>
-		<p> Visualiser tous les mouvements de l\'année en cours <input style="left:54%;"type="radio" checked="checked" name="regle" value="all"/> </p> 
-		<p><input type="submit" name="voir_selection" value="Consulter" style="position:relative;left:39%;width:12%; padding:10px" /></p>
-	</form>
-	<script type="text/javascript">$(document).ready(function() { document.title = \'Journal Des Mouvements\';});</script>
-	<i><a href="index.php?page=gestionnaire">Retour au menu</a></i> 
-	
-	');
-	
 	if(isset($_GET['id']))
 		{
 		echo AffichageMouvementID($_GET['id']);
 		}
-	
-	if (!empty($_POST['soldes'])) echo AfficherSoldeCompte($_POST['soldes']);
+
+	elseif (!empty($_POST['soldes'])) echo AfficherSoldeCompte($_POST['soldes']);
 			
+	elseif (isset($_POST['regle'])) 
+		{	
 	if (isset($_POST['regle'])) $choix_utilisateur = $_POST['regle'];
 	else $choix_utilisateur = 'all';
 	
@@ -84,6 +66,24 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 		default: AffichageJournalMouvement();
 	
 		};
+		}
+	else{
+		
+	$select=SelectUsers();
+	echo ('
+	<h1>Journal des mouvements</h1>
+	<form method="post" action="index.php?page=journal_des_mouvements">
+		<p><label for="sel_usr">Visualiser les mouvements d`\'un compte : </label> '.$select.'		</p>
+		<p> Visualiser les mouvements d\'une date précise : <input type="radio" name="regle" value="date"/> 
+			<input type="date" style="width: 150px;" placeholder="jj/mm/aaaa" name="recherche_date"/> </p>
+		<p>Mouvements d\'une année <input type="radio" name="regle" value="annee"/> 
+			<input type="text" style="width: 150px;" placeholder="aaaa" name="listage_par_an"/> </p>
+		<p> Visualiser tous les mouvements de l\'année en cours <input style="left:54%;"type="radio" checked="checked" name="regle" value="all"/> </p> 
+		<p><input type="submit" name="voir_selection" value="Consulter" style="position:relative;left:39%;width:12%; padding:10px" /></p>
+	</form>
+	<script type="text/javascript">$(document).ready(function() { document.title = \'Journal Des Mouvements\';});</script>
+	<i><a href="index.php?page=menu">Retour au menu</a></i> ');
+	}
 	}
 ?>
 
@@ -92,6 +92,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 		echo '<h2>Toutes les opérations effectuées sur TOUS les comptes pour l\'année '.date('Y').'</h2><br/>';
 		$journalmouvement = JournalDesMouvements();
 		ExploitationTableauMouvements($journalmouvement);
+		echo '<p><a href="index.php?page=journal_des_mouvements">Retour au menu du journal des mouvements</a></p>';
 		}
 
 	function AffichageMouvementID($id_saisie, $date_saisie = NULL){
@@ -107,7 +108,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 			$listemouvement = RechercheMouvementParID($id_saisie, dateFR2US($date_saisie));
 			}
 		ExploitationTableauMouvements($listemouvement);
-
+		echo '<p><a href="index.php?page=journal_des_mouvements">Retour au menu du journal des mouvements</a></p>';
 		}
 
 	function AffichageMouvementAn($an) {
@@ -116,6 +117,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 		$listemouvement = RechercheMouvementParAn($an);
 
 		ExploitationTableauMouvements($listemouvement);	
+		echo '<p><a href="index.php?page=journal_des_mouvements">Retour au menu du journal des mouvements</a></p>';
 		}
 
 	function AffichageMouvementClubID($id_saisie, $date_saisie = NULL) {
@@ -131,6 +133,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 			$listemouvement = RechercheMouvementParID($id_saisie, dateFR2US($date_saisie));
 			}
 		ExploitationTableauMouvements($listemouvement);
+		echo '<p><a href="index.php?page=journal_des_mouvements">Retour au menu du journal des mouvements</a></p>';
 		}
 
 	function AffichageMouvementJournee($jour = NULL){
@@ -146,6 +149,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 			$listemouvement = RechercheMouvementParJournee(dateFR2US($jour));
 			}
 		ExploitationTableauMouvements($listemouvement);
+		echo '<p><a href="index.php?page=journal_des_mouvements">Retour au menu du journal des mouvements</a></p>';
 	}	
 
 	// Permet de rendre le tableau lisible , affichage		

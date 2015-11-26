@@ -1,16 +1,11 @@
 <?php
 /*
 |	requetesPDO.php
-|	Fichier centralisant les requêtes PHP utilisé par le systèmes.
-|
-|
-|
+|	Fichier centralisant les requêtes PHP utilisé par le système
 
 Crée le O1/04/15 par Kean de Souza (kean.desouza@gmail.com)
-Dernière modification le : 01/04/15 par Kean de Souza 
-
+Dernière modification le : 09/11/15 par Kean de Souza 
 Edité avec Notepad++ 10/01/15 - 17:20:21 ( Je suis Charlie Edition)
-
 */
 
 //Fonction permettant de se connecter à la base de donnée pour les membres
@@ -207,19 +202,19 @@ function ForfaitPlaneur($forfait, $planeur){
 |													|
  ---------------------------------------------------*/
 
-	// Verifier que le mot de passe et l'email sont bien dans la base de données.
-	$reqVerifUserLogPassByLOG=$bdd->prepare("SELECT * FROM compte_utilisateur WHERE pseudo=:pseudo AND password=:password");
-	
-	// Rechercher les utilisateurs ayant :mail
-	$reqVerifUserbyMail=$bdd->prepare("SELECT * FROM compte_utilisateur WHERE mail=:mail");
-	
-	//Inserer un nouvel utilsateur avec un bas staut
-	$reqNewUser=$bdd->prepare("INSERT INTO compte_utilisateur 
-	( date_inscription, pseudo, nom, prenom, profession, sexe, date_naissance, adresse, cp, ville, tel_fixe, tel_mobile, mail, password, id_statut)
-	VALUES( NOW(), :pseudo,:nom, :prenom, :profession, :sexe, :date_naissance, :adresse, :cp, :ville, :tel_fixe, :tel_mobile, :mail, :password,1)");
-	
-/*--------------------------------------------------------------------
----------------------------------------------------------------------- */
+// Verifier que le mot de passe et l'email sont bien dans la base de données.
+$reqVerifUserLogPassByLOG=$bdd->prepare("SELECT * FROM compte_utilisateur WHERE pseudo=:pseudo AND password=:password");
+
+// Rechercher les utilisateurs ayant :mail
+$reqVerifUserbyMail=$bdd->prepare("SELECT * FROM compte_utilisateur WHERE mail=:mail");
+
+//Recherche pseudo
+$reqVerifPseudo=$bdd->prepare("SELECT * FROM compte_utilisateur WHERE pseudo=:pseudo");
+
+//Inserer un nouvel utilsateur avec un bas staut
+$reqNewUser=$bdd->prepare("INSERT INTO compte_utilisateur 
+( date_inscription, pseudo, nom, prenom, profession, sexe, date_naissance, adresse, cp, ville, tel_fixe, tel_mobile, mail, password, id_statut)
+VALUES( NOW(), :pseudo,:nom, :prenom, :profession, :sexe, :date_naissance, :adresse, :cp, :ville, :tel_fixe, :tel_mobile, :mail, :password,1)");
 
 /*-------------------------------------------
 |											|
@@ -459,9 +454,7 @@ function GetForfaitDescription ($id_mouv) {
 	$req->CloseCursor();
 	return $res;
 }
-/*--------------------------------------------------------------------
----------------------------------------------------------------------- */
-// AJOUT LE 26/05
+
 
 /*-------------------------------------------
 |											|
@@ -471,7 +464,7 @@ function GetForfaitDescription ($id_mouv) {
  
 function InfoUsers() {	 
 	$bdd=ConnectBddUser();
-	$req= $bdd->prepare('SELECT id_util, id_club, nom, prenom, date_naissance FROM compte_utilisateur WHERE 1 ORDER BY id_club ASC');
+	$req= $bdd->prepare('SELECT id_util, id_club, nom, prenom, date_naissance, id_statut, nom_statut FROM compte_utilisateur, statut WHERE 1 AND num_statut = id_statut ORDER BY id_club ASC');
 	$req->execute();
 	$res = $req->fetchAll(PDO::FETCH_NAMED);
 	if (DEBUG_SQL) {echo 'RQ '. __function__ .' <br/>' ; print_r($res);}
@@ -529,6 +522,21 @@ function SelectUsers() {
 		$age_user = Age($valeur['date_naissance']);
 		if ( $age_user == $annee ) $age_user='non renseigné - ';
 		$select.= '<option value="'.$valeur['id_util'].'"> '.$valeur['id_club'].' - '.$valeur['nom'].' '.$valeur['prenom'].' - '.$age_user.' ans</option>';
+		}	
+	$select.='</select>';
+	return $select;
+	}
+	
+function SelectUsersStatut() {
+ //AJOUT LE 25/11/15 - Retourne un type select en html permetant de sélectionner un membre
+	  
+	$tab = InfoUsers();
+	
+	$select='<select id="sel_usr" name="select_user"> <option value=""> Aucune sélection</option>';
+	
+	foreach ($tab as $valeur)
+		{	
+		$select.= '<option value="'.$valeur['id_util'].'"> '.$valeur['id_club'].' - '.$valeur['nom'].' '.$valeur['prenom'].' - '.$valeur['nom_statut'].'</option>';
 		}	
 	$select.='</select>';
 	return $select;
@@ -803,7 +811,7 @@ function SelectionnerMouvement($id_mouv) {
 
 function RechercheMouvementParJournee($jour){
 	$bdd=ConnectBddGestionnaire();
-	$requete = $bdd->prepare(" SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE DATE(date_heure_mouv)=:date AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
+	$requete = $bdd->prepare(" SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, mouvement.comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE DATE(date_heure_mouv)=:date AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
 	$requete->bindValue(':date',$jour,PDO::PARAM_STR);	
 	$requete->execute();
 	$tab=$requete->fetchAll(PDO::FETCH_NAMED);
@@ -814,7 +822,7 @@ function RechercheMouvementParJournee($jour){
 
 function RechercheMouvementParAn($an){
 	$bdd=ConnectBddGestionnaire();
-	$requete = $bdd->prepare(" SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE YEAR(date_heure_mouv)=:annee AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
+	$requete = $bdd->prepare(" SELECT id_mouv, DATE(date_heure_mouv) as date_mouv, TIME(date_heure_mouv) as heure_mouv, type_mouv, mode_paie, montant, id_client,compte_utilisateur.nom as client, id_gestionnaire, compte.nom as gestionnaire, type_tarif, description, n_vol, mouvement.comm FROM mouvement, compte_utilisateur, compte_utilisateur compte, tarif WHERE YEAR(date_heure_mouv)=:annee AND mouvement.id_gestionnaire=compte.id_util AND mouvement.type_tarif=tarif.id_tarif AND compte_utilisateur.id_util = mouvement.id_client ORDER BY id_mouv DESC") ; // Sélectionne les mouvements de l'année civile en cours
 	$requete->bindValue(':annee',$an,PDO::PARAM_STR);	
 	$requete->execute();
 	$tab=$requete->fetchAll(PDO::FETCH_NAMED);
@@ -1007,14 +1015,54 @@ function GetInfoForfaitConfig($id_tarif_cf){
 	$req->CloseCursor();
 	return $res;
 	}
+
+function ListerAeronefs() {
+	$bdd = ConnectBddGestionnaire();
+	$req = $bdd->prepare('SELECT * FROM aeronefs WHERE 1'); 
+	$req -> execute();
+	$res = $req->fetchAll(PDO::FETCH_NAMED);
+	if (DEBUG_SQL) {echo 'RQ '. __function__ .'<br/>' ; print_r($res);}
+	$req->CloseCursor();
+	return $res;	
+}
+
+function InscrireAeronefs($immat, $modele, $disponible, $type, $dispositif, $info) {
+	$bdd = ConnectBddGestionnaire();
+	$req = $bdd->prepare('INSERT INTO aeronefs (type, modele, immat, statut, dispo_envo, commentaire) 
+	VALUES (:type, :modele, :immat, :statut, :envol, :commentaire) '); 
+	$req -> bindvalue(':type', $type, PDO::PARAM_STR);
+	$req -> bindvalue(':modele', $modele, PDO::PARAM_STR);
+	$req -> bindvalue(':immat', $immat, PDO::PARAM_STR);
+	$req -> bindvalue(':statut', $disponible, PDO::PARAM_STR);
+	$req -> bindvalue(':envol', $dispositif, PDO::PARAM_INT);
+	$req -> bindvalue(':commentaire', $info, PDO::PARAM_STR);
+
+	if(($req->execute()) == TRUE ){return TRUE ;} else {return FALSE; }
+}
+
+ function SupprimerAeronef($id) {
+	 $bdd=ConnectBddGestionnaire();
+	 $req = $bdd->prepare('DELETE FROM aeronefs WHERE num_aeronef = :id');
+	 $req->bindValue(':id', $id);
+	 $req->execute();
+	 
+	}
 	
-
-
 /*-------------------------------------------
 |											|
 |	   REQUETES SQL Super_Administrateur	|
 |											|
  --------------------------------------------*/
+ 
+ function CheckImmatriculation($immat_saisi) {
+	 $bdd=ConnectBddGestionnaire();
+	 $req = $bdd->prepare('SELECT * FROM aeronefs WHERE immat = :saisie ');
+	 $req->bindValue(':saisie', $immat_saisi);
+	 $req->execute();
+	 $valeur=$req->fetch(PDO::FETCH_NAMED);
+	 $req->CloseCursor();
+	 return $valeur;
+	}
  
 function SelectStatut(){
 		$bdd=ConnectBddGestionnaire();

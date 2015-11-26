@@ -29,11 +29,12 @@ if (isset($_POST['auth']))
 	
 	if(empty($resul))
 		{
-		echo '<p> Vous n\'êtes pas inscrit dans la base de données ou les données renseignées sont erronées... </p>';
-		header('refresh: 3; URL=index.php?page=accueil');	
+		$login_error='Vous n\'êtes pas inscrit dans la base de données ou les données renseignées sont erronées...';
+		MessageAlert($login_error);
+		header('refresh: 0; URL=index.php?page=accueil');	
 	}
 	else {
-		echo '<p> Bienvenue <mark><i>'.$resul["pseudo"].'</i></mark> Vous serez redirigé dans un instant... </p>';
+		echo '<p> Bienvenue <mark><i>'.$resul["pseudo"].'</i></mark></p> <p>Vous serez redirigé dans un instant... </p>';
 		
 		$_SESSION['id']=$resul['id_util'];
 		$_SESSION['id_statut'] = $resul['id_statut'];
@@ -42,39 +43,9 @@ if (isset($_POST['auth']))
 		$_SESSION['nom']=$resul['nom'];
 		$_SESSION['prenom']=$resul['prenom'];
 		$_SESSION['date_naissance']=$resul['date_naissance'];
+		$_SESSION['page_defaut'] = 'menu';
 		
-		switch($_SESSION['id_statut'])
-				{
-				case 1 :	$_SESSION['page_defaut'] ='membre';
-							header('Refresh: 1; URL=index.php?page=membre'); 
-							break;
-				
-				case 2 : 	$_SESSION['page_defaut'] ='membre';
-							header('Refresh: 1; URL=index.php?page=membre'); 
-							break;
-				
-				case 3 : 	echo 'Gestion des désinscrit'; 
-							$_SESSION['page_defaut'] ='membre'; 
-							break;
-
-				case 4 : 	$_SESSION['id_gestionnaire'] = $resul['id_util']; 
-							$_SESSION['page_defaut'] ='gestionnaire';
-							header('Refresh: 1; URL=index.php?page=gestionnaire'); 
-							break;
-
-				case 5 : 	$_SESSION['id_gestionnaire'] = $resul['id_util']; 
-							$_SESSION['page_defaut'] ='administrateur';
-							header('Refresh: 1; URL=index.php?page=administrateur'); 
-							break;
-				
-				case 6 : 	$_SESSION['id_gestionnaire'] = $resul['id_util']; 
-							$_SESSION['page_defaut'] ='kjazh42tgh41';
-							header('Refresh: 1; URL=index.php?page=kjazh42tgh41'); 
-							break;
-				
-				
-				default : header('Refresh: 1; URL=index.php?page=membre');  break;
-				}
+		header('refresh: 1; URL=index.php?page=menu');
 		
 	}	
 }

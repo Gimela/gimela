@@ -3,7 +3,7 @@
 Kean de Souza et Christeddy Milapie
 15/06/2015
 Objectif : 
-	Espace SuperUtilisateur
+	Espace SuperUtilisateur : Mise à jour d'un membre
 */
 if(empty($_SESSION)){
 	header('refresh: 1; URL=index.php');
@@ -16,25 +16,25 @@ elseif($_SESSION['id_statut'] < STATUT_ACCES_SA)
 	}
 elseif($_SESSION['id_statut'] >= STATUT_ACCES_SA)
 	{
-		// Permet de modifier le statut de l'utilisateur
-		$selectS=SelectStatut();
-		echo ('
-		<p> ID CLUB: <input type="text" name="club"/></p>
-		<p> Pseudo : <input type="text" name="pseudo"/></p>
-		<p> Mot de passe : <input type="password" name="password"/></p>
-		<p>Statut:'.$selectS.'</p>
-		<input type="submit" name="valider"/>
-		');
+
+	$selectS=SelectStatut();
+	$membres = SelectUsersStatut();
+	echo ('
+	<h1> Promotion d\'un membre </h1>
+	<form method="post" action="#">
+	<p> Membre : '.$membres.' </p>
+	<p> Statut:'.$selectS.'</p>
+	<input type="submit" name="valider" value="Valider la promotion" /> </form>
+	<p><a href="index.php?page=menu"> Retourner au menu</a></p>');
+
+		
 	if (isset($_POST['valider'])){
-		$reqNewUser1->bindValue(':club',$_POST['id_club'] ,PDO::PARAM_STR);
-		$reqNewUser1->bindValue(':pseudo',$_POST['pseudo'] ,PDO::PARAM_STR);
-		$reqNewUser1->bindValue(':password',$_POST['password'] ,PDO::PARAM_STR);
-		$reqNewUser1->bindValue(':select_stat',$_POST['select_stat'] ,PDO::PARAM_STR);
-		
-		if(($reqNewUser1->execute())==TRUE){
-			echo' nouveau membre';
+		print_r($_POST); 
+		$succes=UpdateStatutUser($_POST['select_user'],$_POST['select_stat']);
+		if ($succes) $msg='Mise à jour du statut du membre effectué' ;
+			else $msg ='Une erreur a été rencontré, veuillez réessayer!';
+		MessageAlert($msg);
+		header('refresh: 0; URL=index.php?page=promotion_utilisateur');
 		}
-		
-	}
 	}	
 ?>

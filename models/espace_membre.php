@@ -60,7 +60,7 @@ else{
 		if ( UpdateNouveauUser($_GET['id'], 2, $_POST['identifiant_club']) == TRUE) $message_validation ="Membre mis à jour avec succès.";
 		else $message_validation="Une erreur a été rencontré, veuillez réessayer et remplir le champ d'identifiant club.";
 		MessageAlert($message_validation);
-		header('URL=index.php?page=alerte');
+		header('refresh: 0;URL=index.php?page=alerte');
 		}
 	/*-------------------------------------------------------------------------
 				Mise a jour des informations des utilisateurs
@@ -73,7 +73,7 @@ else{
 		else $message_confirmation='Une erreur a été rencontré, veuillez recommencer';
 		
 		MessageAlert($message_confirmation);
-		header('URL=index.php?page=membre&amp;id='.$_GET['id'].'');
+		header('refresh: 0;URL=index.php?page=membre&amp;id='.$_GET['id'].'');
 		}
 	/*------------------------------------------------------------------------
 			Interface de validation d'un membre -- GESTIONNAIRE
@@ -105,7 +105,7 @@ else{
 					<li>Identifiant '.NOM_CLUB.' : '.$resultat['id_club'].'</li>
 					<li>Nom: '.$resultat["nom"].'</li>
 					<li>Prenom:	'.$resultat["prenom"].'  </li>
-					<li>Age: '.Age($resultat["date_naissance"]).' ans </li>
+					<li>Age: '.Age($resultat["date_naissance"]).' ans  ('.dateUS2FR($resultat["date_naissance"]).')</li>
 					<li>Adresse: 	'.$resultat["adresse"].' </li>
 					<li>Code Postal:	 '.$resultat["cp"].'</li>
 					<li>Ville:	'.$resultat["ville"].'</li>
@@ -167,20 +167,29 @@ else{
 					<li><strong>Nom:</strong> '.$resultat["nom"].'</li> 
 					<li><strong>Prenom:</strong>	'.$resultat["prenom"].'  </li>
 					<li><strong>Sexe:</strong>	'.$resultat["sexe"].'</li>
-					<li><strong>Age:</strong> '.Age($resultat["date_naissance"]).' ans </li>
+					<li><strong>Age:</strong> '.Age($resultat["date_naissance"]).' ans ('.dateUS2FR($resultat["date_naissance"]).') </li>
 					<li><strong>Adresse:</strong> <input style="width:28%;position:relative;left:27px" type="text"  value="'.$resultat["adresse"].'" name="md_adr"/> </li>
 					<li><strong>Code Postal:</strong> <input style="width:28%" type="text"  value="'.$resultat["cp"].'" name="md_cp"/> </li>
 					<li><strong>Ville:</strong> <input style="width:28%;position:relative;left:51px" type="text"  value="'.$resultat["ville"].'" name="md_ville"/> </li>
 					<li><strong>E-Mail:</strong> <input style="width:28%;position:relative;left:39px" type="text" size="50"  value="'.$resultat["mail"].'" name="md_mail"/></li>
 					<li><strong>Tél.fixe :</strong> <input style="width:28%;position:relative;left:21px" type="text"  value="'.$resultat["tel_fixe"].'" name="md_fixe"/></li>
-					<li><strong>Portable:</strong> <input style="width:28%;position:relative;left:21px" type="text"  value="'.$resultat["tel_mobile"].'" name="md_mob"/></li><br>
+					<li><strong>Portable:</strong> <input style="width:28%;position:relative;left:21px" type="text"  value="'.$resultat["tel_mobile"].'" name="md_mob"/></li>
 					<li><strong>Numéro de licence/ Date d\'obtention :</strong> '.$resultat["num_licence"].'	/ '.dateUS2FR($resultat["date_licence"]).' </li>
 					<li><strong>Date de la dernière visite médicale:</strong> '.dateUS2FR($resultat["visit_med"]).' </li>
 					<li><strong>Message important :</strong> </li>
 				</ul>
+				
+				<p> <strong> Modifier mon mot de passe </strong> </p>
+				<ul> 
+					<li> <label for="old-passe"> Ancien mot de passe </label> <input id="old-passe" name="old-passe" type="password" /> </li>
+					<li> <label for="passe"> Nouveau mot de passe </label> <input id="passe" name="passe" type="password" /> </li>
+					<li> <label for="passe1">Confirmer le mot de passe</label> <input id="passe1" name="passe1" type="password" /> </li>
+				</ul>
+				
 				<p><input type="submit" name="mod_form_info" value="Modifer mes informations" style="width:25%;padding:10px"/> </p>
 				<a href="index.php?page=membre">Retourner à mon espace</a>				
 				</form>
+				
 				');
 		}
 	/*------------------------------------------------------------------------------------	
@@ -243,9 +252,34 @@ else{
 				Interface principale
 	-------------------------------------------------------------*/
 	else{
-		// Si modifications auparavant mettre en attente le processus de modif
 		if (isset($_POST['mod_form_info']))
-			{ 
+		{
+		if (!empty($_POST['old-passe']))
+			{
+			// Verification des champs de mots de passe
+			
+			if ( (!empty($_POST['passe'])) && (!empty($_POST['passe1'])) && ($_POST['passe'] == $_POST['passe1']) )
+				{
+				
+				$reqVerifUserLogPassByLOG->bindValue(':pseudo', $_SESSION['pseudo'], PDO::PARAM_STR);
+				$reqVerifUserLogPassByLOG->bindValue(':password', md5($_POST['old-passe']), PDO::PARAM_STR);
+				$reqVerifUserLogPassByLOG->execute();
+			
+				$resul=$reqVerifUserLogPassByLOG->fetch(PDO::FETCH_ASSOC);
+			
+				if($resul == FALSE) $message="Ancien mot de passe incorret, la modification n'a pas pu s'effectuer"; 	 // Ancien mdp mal saisie
+				else
+					{
+					if ( UpdateMDP($_SESSION['id'] , md5($_POST['passe'])  )) $message="Mot de passe mis à jour !";
+					else $message = "Erreur pendant la mise à jour, veuillez recommencer";
+					}
+						
+				}
+			else $message="Les nouveaux mot de passe ne correspondent pas";
+			
+			MessageAlert($message);	
+			}
+		
 			$modif=0; //savoir si il y'a une ou plusieurs modification
 			if ( $resultat['adresse'] != $_POST['md_adr']){ DemandeMajByUser($id_demande, 'compte_utilisateur', 'adresse', $_POST['md_adr'], 'Ajout'); $modif++;}
 			if ( $resultat['cp'] != $_POST['md_cp'] ) { DemandeMajByUser($id_demande, 'compte_utilisateur', 'cp', $_POST['md_cp'], 'Ajout'); $modif++;}
@@ -303,7 +337,7 @@ else{
 		$tabModif='<ul>
 				<li><strong>Nom: </strong>'.$resultat["nom"].'</li>
 				<li><strong>Prenom: </strong>'.$resultat["prenom"].'  </li>
-				<li><strong>Age: </strong> '.Age($resultat["date_naissance"]).' ans </li>
+				<li><strong>Age: </strong> '.Age($resultat["date_naissance"]).' ans ('.dateUS2FR($resultat["date_naissance"]).')</li>
 				<li><strong>Adresse: </strong>	'.$resultat["adresse"].' </li>
 				<li><strong>Code Postal: </strong>	 '.$resultat["cp"].'</li>
 				<li><strong>Ville: </strong>	'.$resultat["ville"].'</li>

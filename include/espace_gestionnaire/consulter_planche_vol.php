@@ -40,7 +40,7 @@ function FormulairePlancheVol() {
 		<h1> Consultation des planches de vol</h1>
 			<p> Voir la planche de vol du : '.$planches_disponibles.'</p>
 			<input type="submit" name="consultation_planche" value="Consulter" style="width:18% ;padding:5px"/>
-			<p><a href="index.php?page=gestionnaire"> Retour au menu</a></p>
+			<p><a href="index.php?page=menu"> Retour au menu</a></p>
 			</form>');	
 	}
 ?>

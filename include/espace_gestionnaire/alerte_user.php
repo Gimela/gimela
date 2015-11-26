@@ -18,6 +18,7 @@ elseif($_SESSION['id_statut'] < STATUT_ACCES_GESTION)
 	}
 elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 	{
+	echo '<script type="text/javascript">$(document).ready(function() { document.title = \'Alerte nouveaux utilisateurs\';});</script>';
 	$res = RechercheMembreAValider();
 
 	if (empty($res))
@@ -80,7 +81,7 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 		<h2>Nouvelles demandes de mises à jour d\'informations</h2>
 		'.$listeinfos.'
 		</form><br/>
-		<a href="index.php?page=gestionnaire" > Retourner au menu Gestionnaire</a></i>
+		<a href="index.php?page=menu" > Retourner au menu </a></i>
 		';
 	}
 ?>

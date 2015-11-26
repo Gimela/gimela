@@ -24,9 +24,9 @@ elseif($_SESSION['id_statut'] >= STATUT_ACCES_GESTION)
 			<li> <a href="index.php?page=alerte">Notifications</a></li>
 			<li> <a href="index.php?page=consultation_membre&amp;lien">Consultation</a> </li>
 			<li> <a href="index.php?page=journal_des_mouvements">Journal Mouvements</a> </li>
-			<li> <a href="index.php?page=import">Importation de la planche de vol</a> </li>
-			<li> <a href="index.php?page=planche_vol">Consultations des planches de vol</a> </li>
 			<li> <a href="index.php?page=operations_mouvements">Mouvements</a> </li>
+			<li> <a href="index.php?page=import">Importation de la planche de vol</a> </li>
+			<li> <a href="index.php?page=planche_vol">Consultation des planches de vol</a> </li>
 			<li> <a href="index.php?page=membre" onclick="window.open(this.href); return false;"> Espace Membre </a> </li>
 		</ul>
 		<script type="text/javascript">$(document).ready(function() { document.title = \'Espace Gestionnaire\';});</script>

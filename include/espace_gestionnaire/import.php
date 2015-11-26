@@ -175,7 +175,7 @@ echo ('<form method="post" action="#" enctype="multipart/form-data">
 <input type="hidden" name="MAX_FILE_SIZE" value="100000"/>
 <input type = "submit" name="auth" value = "Envoyer la planche et valoriser les vols" style="width:34%; padding:5px"/>
 </form>
-<p><i><a href="index.php?page=gestionnaire"> <= Retour au menu</a></i></p> ');
+<p><i><a href="index.php?page=menu"> <= Retour au menu</a></i></p> ');
 	}
 }
 ?>
